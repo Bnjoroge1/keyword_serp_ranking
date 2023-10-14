@@ -7,35 +7,53 @@ api_key = os.environ.get('API_KEY')
 st.title("Keyword SERP Ranking - Titles & URLs")
 
 # Input fields for user
-q = st.text_input("Please enter the keyword:")
+keywords_input = st.text_input("Please enter the keyword(s) (separated by commas if multiple):")
 google_domain = st.text_input("Please enter the Google domain (e.g. 'google.co.uk'):")
-gl = st.text_input("Please enter the Google country (e.g. uk):")
-hl = st.text_input("Please enter the user UI language (e.g. en):")
+gl = st.text_input("Please enter the Google country (e.g. 'uk'):")
+hl = st.text_input("Please enter the user UI language (e.g. 'en'):")
 
 # Button to trigger the API call
 if st.button('Get Results'):
-    # Set up the request parameters
-    params = {
-        'api_key': api_key,
-        'q': q,
-        'google_domain': google_domain,
-        'gl': gl,
-        'hl': hl,
-        'max_page': '5',
-        'num': '100',
-        'output': 'csv',
-        'csv_fields': 'search.q,organic_results.position,organic_results.title,organic_results.link'
-    }
+    # Splitting the keywords input by comma
+    keywords = [keyword.strip() for keyword in keywords_input.split(",")]
 
-    # Make the HTTP GET request to VALUE SERP
-    api_result = requests.get('https://api.valueserp.com/search', params)
+    # Initialize the progress bar and status text
+    progress_bar = st.progress(0)
+    status_text = st.empty()
 
-    csv_data = api_result.content.decode("utf-8")
+    combined_csv_data = ""
+    for index, q in enumerate(keywords):
+        # Update the status text to inform the user which keyword is being processed
+        status_text.text(f"Fetching data for keyword: {q} ...")
 
-    # Providing the CSV content as a downloadable file
+        # Set up the request parameters for each keyword
+        params = {
+            'api_key': api_key,
+            'q': q,
+            'google_domain': google_domain,
+            'gl': gl,
+            'hl': hl,
+            'max_page': '5',
+            'num': '100',
+            'output': 'csv',
+            'csv_fields': 'search.q,organic_results.position,organic_results.title,organic_results.link'
+        }
+
+        # Make the HTTP GET request to VALUE SERP
+        api_result = requests.get('https://api.valueserp.com/search', params)
+        csv_data = api_result.content.decode("utf-8")
+        combined_csv_data += csv_data + "\n"  # Add a newline between results of different keywords
+
+        # Update the progress bar
+        progress_bar.progress((index + 1) / len(keywords))
+
+    # Inform the user that the process is complete
+    status_text.text("Data fetching complete! You can now download the CSV.")
+
+    # Providing the combined CSV content as a downloadable file
     st.download_button(
         label="Download CSV",
-        data=csv_data,
-        file_name="keyword_serp_ranking.csv",
+        data=combined_csv_data,
+        file_name="value_serp_results.csv",
         mime="text/csv"
     )
