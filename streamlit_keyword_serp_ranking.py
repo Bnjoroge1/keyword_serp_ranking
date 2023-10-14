@@ -36,6 +36,6 @@ if st.button('Get Results'):
     st.download_button(
         label="Download CSV",
         data=csv_data,
-        file_name="value_serp_results.csv",
+        file_name="keyword_serp_ranking.csv",
         mime="text/csv"
     )
