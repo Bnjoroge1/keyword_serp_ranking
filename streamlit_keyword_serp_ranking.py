@@ -30,5 +30,12 @@ if st.button('Get Results'):
     # Make the HTTP GET request to VALUE SERP
     api_result = requests.get('https://api.valueserp.com/search', params)
 
-    # Display the result in Streamlit
-    st.write(api_result.content.decode("utf-8"))
+    csv_data = api_result.content.decode("utf-8")
+
+    # Providing the CSV content as a downloadable file
+    st.download_button(
+        label="Download CSV",
+        data=csv_data,
+        file_name="value_serp_results.csv",
+        mime="text/csv"
+    )
