@@ -54,6 +54,6 @@ if st.button('Get Results'):
     st.download_button(
         label="Download CSV",
         data=combined_csv_data,
-        file_name="paa_scraped_data",
+        file_name="paa_scraped_data.csv",
         mime="text/csv"
     )
