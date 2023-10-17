@@ -30,7 +30,7 @@ elif input_option == "CSV File Upload":
         keywords = []
 
 # Input fields for user
-keywords_input = st.text_input("Please enter the keyword(s) (separated by commas if multiple):")
+#keywords_input = st.text_input("Please enter the keyword(s) (separated by commas if multiple):")
 google_domain = st.text_input("Please enter the Google domain (e.g. 'google.co.uk'):")
 gl = st.text_input("Please enter the Google country (e.g. 'uk'):")
 hl = st.text_input("Please enter the user UI language (e.g. 'en'):")
