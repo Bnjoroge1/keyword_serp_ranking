@@ -30,6 +30,11 @@ elif input_option == "CSV File Upload":
     else:
         keywords = []
 
+# Limiting to 100 keywords
+if len(keywords) > 100:
+    st.warning("More than 5 keywords provided. Only processing the first 5 keywords.")
+    keywords = keywords[:100]
+
 # Input fields for user
 # keywords_input = st.text_input("Please enter the keyword(s) (separated by commas if multiple):")
 google_domain = st.text_input("Please enter the Google domain (e.g. 'google.co.uk'):")
