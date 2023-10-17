@@ -23,4 +23,6 @@ There's a couple of things that I'd like to add soon:
 4. Analytics implementation (in a sheet)
 5. User Analytics Dashboard (anonymised)
 6. Add link to ko-fi (or similar)
-7. 
+7. Add visualisation
+8. Add option to have a high level overview of the csv prior to download
+9. 
