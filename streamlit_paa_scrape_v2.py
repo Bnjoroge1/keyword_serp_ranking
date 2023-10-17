@@ -1,10 +1,33 @@
 import streamlit as st
 import requests
 import os
+import pandas as pd
+
 api_key = os.environ.get('API_KEY')
 
 # Title of the Streamlit app
 st.title("People Also Ask - Titles & URLs")
+
+# Select input method
+input_option = st.radio("Choose input method:", ["Manual Keyword Entry", "CSV File Upload"])
+
+# If user selects Manual Keyword Entry
+if input_option == "Manual Keyword Entry":
+    keywords_input = st.text_input("Please enter the keyword(s) (separated by commas if multiple):")
+    keywords = [keyword.strip() for keyword in keywords_input.split(",")] if keywords_input else []
+
+# If user selects CSV File Upload
+elif input_option == "CSV File Upload":
+    uploaded_file = st.file_uploader("Choose a CSV file containing a keywords column", type="csv")
+    if uploaded_file:
+        df = pd.read_csv(uploaded_file)
+        if 'keywords' in df.columns:
+            keywords = df['keywords'].tolist()
+        else:
+            st.error("CSV does not have a 'keywords' column!")
+            keywords = []
+    else:
+        keywords = []
 
 # Input fields for user
 keywords_input = st.text_input("Please enter the keyword(s) (separated by commas if multiple):")
