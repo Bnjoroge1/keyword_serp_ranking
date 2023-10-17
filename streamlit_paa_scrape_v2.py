@@ -32,7 +32,7 @@ elif input_option == "CSV File Upload":
 
 # Limiting to 100 keywords
 if len(keywords) > 100:
-    st.warning("More than 5 keywords provided. Only processing the first 5 keywords.")
+    st.warning("More than 100 keywords provided. Only processing the first 100 keywords.")
     keywords = keywords[:100]
 
 # Input fields for user
