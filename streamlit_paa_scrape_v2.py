@@ -9,7 +9,8 @@ api_key = os.environ.get('API_KEY')
 st.title("People Also Ask - Titles & URLs")
 
 # Select input method
-input_option = st.radio("Choose input method:", ["Manual Keyword Entry", "CSV File Upload"])
+input_option = st.radio("Choose input method:", ["Manual Keyword Entry", "CSV File Upload"],
+                        captions=["Manually input a list of keywords.", "Provide a csv file with a 'keywords' column."])
 
 # If user selects Manual Keyword Entry
 if input_option == "Manual Keyword Entry":
@@ -30,7 +31,7 @@ elif input_option == "CSV File Upload":
         keywords = []
 
 # Input fields for user
-#keywords_input = st.text_input("Please enter the keyword(s) (separated by commas if multiple):")
+# keywords_input = st.text_input("Please enter the keyword(s) (separated by commas if multiple):")
 google_domain = st.text_input("Please enter the Google domain (e.g. 'google.co.uk'):")
 gl = st.text_input("Please enter the Google country (e.g. 'uk'):")
 hl = st.text_input("Please enter the user UI language (e.g. 'en'):")
@@ -62,7 +63,7 @@ if st.button('Get Results'):
             'csv_fields': 'search.q,related_questions.question,related_questions.answer,related_questions.source.link'
         }
 
-# Make the HTTP GET request to VALUE SERP
+        # Make the HTTP GET request to VALUE SERP
         api_result = requests.get('https://api.valueserp.com/search', params)
         csv_data = api_result.content.decode("utf-8")
         combined_csv_data += csv_data + "\n"  # Add a newline between results of different keywords
